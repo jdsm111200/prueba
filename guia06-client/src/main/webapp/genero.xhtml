@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:commandButton actionListener="#{generoBean.generosGet()}" value="Obtener Datos" update=":tabla" /> 
+        </h:form>
+        <h:form id="tabla">
+            <h1><p:outputLabel>Tabla Genero</p:outputLabel></h1>
+            <h:outputText value="No existen registros en la tabla" rendered="#{empty generoBean.generos}"/>
+            <p:dataTable var="g" value="#{generoBean.generos}" paginator="true" rows="5" paginatorPosition="bottom" 
+                         id="Genero" rendered="#{not empty generoBean.generos}">
+                <p:column headerText="ID Genero">
+                    <h:outputText value="#{g.idGenero}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{g.nombre}"/>
+                </p:column>
+                <p:column headerText="Descripcion">
+                    <h:outputText value="#{g.descripcion}"/>
+                </p:column>
+                <p:column headerText="Activo">
+                    <h:outputText value="#{g.activo?'Activo':'Inactivo'}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:form id="form" >
+            <h1><p:outputLabel>CRUD</p:outputLabel></h1>
+            <h:panelGrid columns="2" id="formulariodatos">
+                <p:outputLabel value="ID" for="txtId"/>
+                <p:inputNumber value="#{generoBean.genero.idGenero}" id="txtId" disabled="false" decimalPlaces="0" required="true"/>
+                <p:outputLabel value="Nombre" for="txtNombre"/>
+                <p:inputText value="#{generoBean.genero.nombre}" id="txtNombre" required="true"/>
+                <p:outputLabel value="Descripcion" for="txtDescripcion"/>
+                <p:inputTextarea value="#{generoBean.genero.descripcion}" id="txtDescripcion"/>
+                <p:outputLabel value="Activo" for="chActivo"/>
+                <p:selectBooleanCheckbox id="chActivo" value="#{generoBean.genero.activo}"/>
+            </h:panelGrid>
+            <p:commandButton value="Nuevo" update=":form, tabla" actionListener="#{generoBean.crear()}"/>
+            <p:commandButton value="Cancelar" update=":form" actionListener="#{generoBean.cancelar()}"/>
+        </h:form>
+    </h:body>
+</html>
+
